@@ -419,7 +419,13 @@ const renderProdukPage = () => {
 
 /* ================ Contact Page ======================= */
 const renderContactPage = () => {
-    rootElement.textContent('Contact Page');
+    /* set head */
+    title('Contact Us');
+    style('contact.css');
+
+    /* set body */
+    
+    rootElement.textContent = 'Contact Page';
 }
 /* ================ End of Contact Page ======================= */
 
@@ -441,12 +447,20 @@ function routing() {
     let path = window.location.pathname;
     rootElement.innerHTML = '';
     
-    if(path === '/') {
-        renderLogin();
-    } else if(path === '/produk') {
-        renderProdukPage();
+    switch (path) {
+        case '/': 
+            renderLogin();
+            break;
+        case '/produk':
+            renderProdukPage();
+            break;
+        case '/contact':
+            renderContactPage();
+            break;
+        default:
+            renderLogin();
     }
-
+    
     eventAnchors();
 }
 routing();

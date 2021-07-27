@@ -3,7 +3,7 @@ body {
     margin: 0;
     font-family: 'Vollkorn', sans-serif;
     color:white;
-    background-image: url('img/backgroundkeren1.jpg');
+    background-image: url('../img/backgroundkeren1.jpg');
 }
 
 nav {
@@ -41,7 +41,7 @@ nav a {
     padding: 30px;
     width: 50%;
     text-align: center;
-    background-image: url('img/subtle_white_feathers_@2X.png');
+    background-image: url('../img/subtle_white_feathers_@2X.png');
     border-radius: 20px;
     box-shadow: 5px 5px 20px rgb(0 0 0 / 80%);
 }
