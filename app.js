@@ -5,17 +5,7 @@ const styleSheet = document.querySelector('link[rel="stylesheet"]');
 
 /* ====  Helper Function for Global === */
 
-/* Set Action for anchor tag */
-const anchors = document.querySelectorAll('a');
 
-anchors.forEach(anchor => {
-    anchor.addEventListener('click' , (e) => {
-        e.preventDefault();
-        let target = anchor.getAttribute('href');
-
-        window.history.pushState(null, "" , target);
-    })
-})
 
 /* Render element function */
 const render = (element) => {
@@ -36,6 +26,20 @@ const title = (title) => {
     tag.textContent = title;
 }
 
+
+/* Set Action for anchor tag */
+const eventAnchors = () => {
+    const anchors = document.querySelectorAll('a');
+    
+    anchors.forEach(anchor => {
+        anchor.addEventListener('click' , (e) => {
+            e.preventDefault();
+            let target = anchor.getAttribute('href');
+            console.log('asddflkjkj');
+            link(target);
+        })
+    })
+}
 
 
 
@@ -250,9 +254,9 @@ const containerProduk = () => {
     return container;
 }
 
-const createCard = () => {
+const createCard = (clas) => {
     const div = document.createElement('div');
-    div.setAttribute('class' , 'card');
+    div.setAttribute('class' , `card ${clas}`);
 
     return div;
 }
@@ -284,9 +288,9 @@ const setContentProduk = (card , name , description) => {
 
 const setCardProduk = (container) => {
     /* create card for produk */
-    const card1 = createCard();
-    const card2 = createCard();
-    const card3 = createCard();
+    const card1 = createCard('card1');
+    const card2 = createCard('card2');
+    const card3 = createCard('card3');
 
     /* set thumbnail */
     setThumbnailProduk(card1 , 'produk1.jpg');
@@ -302,8 +306,85 @@ const setCardProduk = (container) => {
     container.appendChild(card1);
     container.appendChild(card2);
     container.appendChild(card3);
-    console.log(container);
 }
+
+const createModal = () => {
+    /* create element */
+    const modal = document.createElement('div');
+    const button = document.createElement('button');
+    const h1 = document.createElement('h1');
+    const message = document.createElement('p');
+    const description = document.createElement('p');
+
+    /* set class*/
+    modal.setAttribute('class' , 'modal hidden')
+    button.setAttribute('class' , 'close-modal')
+    message.setAttribute('class' , 'message')
+
+    /* set content */
+    button.innerHTML = '&times;';
+    h1.textContent = 'Thank you for shipping 😍';
+    description.textContent = 'cie sepatu baru 😁😂😉';
+
+    /* append each element */
+    modal.appendChild(button);
+    modal.appendChild(h1);
+    modal.appendChild(message);
+    modal.appendChild(description);
+    
+    render(modal);
+}
+
+const overlay = () => {
+    const element = document.createElement('div');
+    element.setAttribute('class' , 'overlay hidden');
+
+    render(element);
+}
+
+
+const scriptProdukPage = () => {
+    const modal = document.querySelector('.modal');
+    const overlay = document.querySelector('.overlay');
+    const btnCloseModal = document.querySelector('.close-modal');
+    const btnsOpenModal1 = document.querySelector('.card1');
+    const btnsOpenModal2 = document.querySelector('.card2');
+    const btnsOpenModal3 = document.querySelector('.card3');
+
+    const closeModal = function () {
+        modal.classList.add('hidden');
+        overlay.classList.add('hidden');
+    };
+
+    btnsOpenModal1.addEventListener('click', function () {
+        modal.classList.remove('hidden');
+        overlay.classList.remove('hidden');
+        document.querySelector('.message').textContent =
+            'Anda telah membeli Produk 1 : Sepatu Nike blabla';
+        });
+        btnsOpenModal2.addEventListener('click', function () {
+        modal.classList.remove('hidden');
+        overlay.classList.remove('hidden');
+        document.querySelector('.message').textContent =
+            'Anda telah membeli Produk 2 : Sepatu apa blabla';
+        });
+        btnsOpenModal3.addEventListener('click', function () {
+        modal.classList.remove('hidden');
+        overlay.classList.remove('hidden');
+        document.querySelector('.message').textContent =
+            'Anda telah membeli Produk 3 : Sepatu Air Jordan';
+        });
+
+        btnCloseModal.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }
+    });
+}
+
 
 const renderProdukPage = () => {
     /* set heading */
@@ -315,11 +396,36 @@ const renderProdukPage = () => {
     navProduk();
     let container = containerProduk();
     setCardProduk(container);
-
+    createModal();
+    overlay();
+    
     render(container);
+
+    scriptProdukPage();
 }
 
 /* =================== End of Produk Page ====================== */
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================ Contact Page ======================= */
+const renderContactPage = () => {
+    rootElement.textContent('Contact Page');
+}
+/* ================ End of Contact Page ======================= */
+
+
+
+
 
 
 
@@ -340,6 +446,8 @@ function routing() {
     } else if(path === '/produk') {
         renderProdukPage();
     }
+
+    eventAnchors();
 }
 routing();
 
