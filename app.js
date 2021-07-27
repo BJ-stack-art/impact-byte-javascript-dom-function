@@ -93,6 +93,16 @@ const styleFormGroup = (clas) => {
 }
 
 
+const inputGroupLogin = (input) => {
+    const group = document.createElement('div');
+    group.setAttribute('class' , 'control block-cube block-input');
+    group.appendChild(input);
+    group.appendChild(styleInput());
+
+    return group;
+}
+
+
 
 // Main Function
 const containerLogin = () => {
@@ -139,16 +149,6 @@ const styleInput = () => {
     return container;
 }
 
-const inputGroupLogin = (input) => {
-    const group = document.createElement('div');
-    group.setAttribute('class' , 'control block-cube block-input');
-    group.appendChild(input);
-    group.appendChild(styleInput());
-
-    return group;
-}
-
-
 const setInputLogin = (form) => {
     /* create element input */
     let username = input('username' , 'username' , 'Username');
@@ -191,6 +191,8 @@ const setBtnLogin = (form) => {
     return form;
 }
 
+
+// Event Script
 const loginSubmitEvent = () => {
     /* get element button */
     const button = document.getElementById('submit');
@@ -223,6 +225,8 @@ const loginSubmitEvent = () => {
 
 
 
+
+// Render Page Function
 const renderLogin = () => {
     /* create head */
     title('Login');
@@ -239,7 +243,7 @@ const renderLogin = () => {
     render(container);
 
     
-    /* create flor or program for login page */
+    /* create flow or program for login page */
     loginSubmitEvent();
 }
 
@@ -256,20 +260,7 @@ const renderLogin = () => {
 
 
 /* =================== Produk Page ====================== */
-const containerProduk = () => {
-    const container = document.createElement('div');
-    container.setAttribute('class' , 'container-produk');
-    
-    return container;
-}
-
-const createCard = (clas) => {
-    const div = document.createElement('div');
-    div.setAttribute('class' , `card ${clas}`);
-
-    return div;
-}
-
+// Helper Function for Produk Page
 const setThumbnailProduk = (card , src) => {
     let thumbnail = document.createElement('img');
     thumbnail.setAttribute('src' , `./image/${src}`);
@@ -293,6 +284,24 @@ const setContentProduk = (card , name , description) => {
     container.appendChild(h1);
     container.appendChild(p);
     card.appendChild(container);
+}
+
+
+
+// Main Function
+
+const containerProduk = () => {
+    const container = document.createElement('div');
+    container.setAttribute('class' , 'container-produk');
+    
+    return container;
+}
+
+const createCard = (clas) => {
+    const div = document.createElement('div');
+    div.setAttribute('class' , `card ${clas}`);
+
+    return div;
 }
 
 const setCardProduk = (container) => {
@@ -352,6 +361,7 @@ const overlay = () => {
 }
 
 
+// Event Script
 const scriptProdukPage = () => {
     const modal = document.querySelector('.modal');
     const overlay = document.querySelector('.overlay');
@@ -395,6 +405,8 @@ const scriptProdukPage = () => {
 }
 
 
+
+// Render Page Function
 const renderProdukPage = () => {
     /* set heading */
     title('Catalog Produk');
@@ -495,6 +507,8 @@ const setFormContact = (container) => {
 }
 
 
+
+// Event Script
 const contactFormSubmit = () => {
     /* Get element input and button */
     const inputName = document.querySelector('input[name="name"]');
@@ -505,7 +519,9 @@ const contactFormSubmit = () => {
     const btnSubmit = document.getElementById('submit');
 
 
-    const showMessage = () => {
+    const showMessage = (e) => {
+        e.preventDefault();
+        
         /* ambil value dari tiap inputan */
         let name = inputName.value;
         let email = inputEmail.value;
@@ -529,14 +545,13 @@ const contactFormSubmit = () => {
 
 
     /* Event when user submit data */
-    btnSubmit.addEventListener('click' , (e) => {
-        e.preventDefault();
-
-        showMessage();
-    })
+    btnSubmit.addEventListener('click' , e => showMessage(e))
 }
 
 
+
+
+// Render Page Function
 const renderContactPage = () => {
     /* set head */
     title('Contact Us');
