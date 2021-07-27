@@ -4,23 +4,23 @@ const styleSheet = document.querySelector('link[rel="stylesheet"]');
 
 
 /* ====  Helper Function for Global === */
-
-
-
 /* Render element function */
 const render = (element) => {
     rootElement.appendChild(element);
 }
 
+// function for link page
 const link = (target) => {
     window.history.pushState(null , "" , target);
     routing();
 }
 
+// link style css
 const style = (file) => {
     styleSheet.setAttribute('href' , `./style/${file}`);
 }
 
+// set title tag
 const title = (title) => {
     let tag = document.getElementsByTagName('title')[0];
     tag.textContent = title;
@@ -35,10 +35,31 @@ const eventAnchors = () => {
         anchor.addEventListener('click' , (e) => {
             e.preventDefault();
             let target = anchor.getAttribute('href');
-            console.log('asddflkjkj');
             link(target);
         })
     })
+}
+
+
+/* create nav element */
+const nav = (page) => {
+    const nav = document.createElement('nav');
+    const link = document.createElement('a');
+    
+    const setLink = (clas, href, text) => {
+        link.setAttribute('class' , clas);
+        link.setAttribute('href' , href);
+        link.textContent = text;
+    }
+    
+    if(page === 'produk') {
+        setLink('btnContact' , '/contact', 'Contact Us');
+    } else if(page === 'contact') {
+        setLink('' , '/produk', 'Produk');
+    }
+
+    nav.appendChild(link);
+    render(nav);
 }
 
 
@@ -235,18 +256,6 @@ const renderLogin = () => {
 
 
 /* =================== Produk Page ====================== */
-const navProduk = () => {
-    const nav = document.createElement('nav');
-    const link = document.createElement('a');
-    
-    link.setAttribute('class' , 'btnContact');
-    link.setAttribute('href' , '/contact');
-    link.textContent = 'Contact Us';
-    nav.appendChild(link);
-
-    render(nav);
-}
-
 const containerProduk = () => {
     const container = document.createElement('div');
     container.setAttribute('class' , 'container-produk');
@@ -393,7 +402,7 @@ const renderProdukPage = () => {
     
     
     /* set body */
-    navProduk();
+    nav('produk');
     let container = containerProduk();
     setCardProduk(container);
     createModal();
@@ -418,14 +427,129 @@ const renderProdukPage = () => {
 
 
 /* ================ Contact Page ======================= */
+const containerContact = () => {
+    /* create element */
+    const section = document.createElement('section');
+    const div = document.createElement('div');
+    const form = document.createElement('form');
+    const h3 = document.createElement('h3');
+
+    /* set attribute element */
+    section.setAttribute('id' , 'contact');
+    section.setAttribute('class' , 'contact');
+    div.setAttribute('class' , 'form')
+    h3.textContent = 'Contact Us';
+
+    /* append each element */
+    form.appendChild(h3);
+    div.appendChild(form);
+    section.appendChild(div);
+
+    return section;
+}
+
+
+const inputContact = (name , placeholder , type = 'text') => {
+    const input = document.createElement('input');
+    input.setAttribute('type' , type);
+    input.setAttribute('name' , name);
+    input.setAttribute('placeholder' , placeholder);
+    
+    return input;
+}
+
+const textareaContact = (name , placeholder) => {
+    const textarea = document.createElement('textarea');
+    textarea.setAttribute('name' , name);
+    textarea.setAttribute('placeholder' , placeholder);
+
+    return textarea;
+}
+
+const btnSubmitContact = () => {
+    const button = document.createElement('button');
+    button.setAttribute('type' , 'submit');
+    button.setAttribute('id' , 'submit');
+    button.textContent = 'Submit';
+
+    return button;
+}
+
+const setFormContact = (container) => {
+    const form = container.querySelector('form');
+    
+    const inputName = inputContact('name' , 'Your Name');
+    const inputEmail = inputContact('email' , 'Your Email' , 'email');
+    const inputPhone = inputContact('phone' , 'Your Phone' , 'number');
+    const textMessage = textareaContact('message' , 'Your Message');
+    const btnSubmit = btnSubmitContact();
+
+    /* append in form */
+    form.appendChild(inputName);
+    form.appendChild(inputEmail);
+    form.appendChild(inputPhone);
+    form.appendChild(textMessage);
+    form.appendChild(btnSubmit);
+
+    return container;
+}
+
+
+const contactFormSubmit = () => {
+    /* Get element input and button */
+    const inputName = document.querySelector('input[name="name"]');
+    const inputEmail = document.querySelector('input[name="email"]');
+    const inputPhone = document.querySelector('input[name="phone"]');
+    const inputMessage = document.querySelector('textarea[name="message"]');
+
+    const btnSubmit = document.getElementById('submit');
+
+
+    const showMessage = () => {
+        /* ambil value dari tiap inputan */
+        let name = inputName.value;
+        let email = inputEmail.value;
+        let phone = inputPhone.value;
+        let message  = inputMessage.value;
+
+        /* validasi */
+        if(name && email && phone && message) {
+            alert(`
+                Nama: ${name}
+                Email: ${email}
+                phone: ${phone}
+                message: ${message}
+            `);
+        } else {
+            alert(`Data tidak valid!`);
+        }
+
+        
+    }
+
+
+    /* Event when user submit data */
+    btnSubmit.addEventListener('click' , (e) => {
+        e.preventDefault();
+
+        showMessage();
+    })
+}
+
+
 const renderContactPage = () => {
     /* set head */
     title('Contact Us');
     style('contact.css');
 
     /* set body */
-    
-    rootElement.textContent = 'Contact Page';
+    nav('contact');
+    let container = containerContact();
+    setFormContact(container);
+    render(container);
+
+    /* set flow program */
+    contactFormSubmit();
 }
 /* ================ End of Contact Page ======================= */
 
