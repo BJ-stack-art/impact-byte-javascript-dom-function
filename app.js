@@ -1,9 +1,52 @@
-let rootElement = document.getElementById('root');
+const rootElement = document.getElementById('root');
+const styleSheet = document.querySelector('link[rel="stylesheet"]'); 
 
 
 
+/* Set Action for anchor tag */
+const anchors = document.querySelectorAll('a');
 
-/* Login page */
+anchors.forEach(anchor => {
+    anchor.addEventListener('click' , (e) => {
+        e.preventDefault();
+        let target = anchor.getAttribute('href');
+
+        window.history.pushState(null, "" , target);
+    })
+})
+
+
+const link = (target) => {
+    window.history.pushState(null , "" , target);
+}
+
+
+/*====================== Login page ====================== */
+// Helper Function
+const input = (id , name, placeholder, type = 'text') => {
+    const input = document.createElement('input');
+    input.setAttribute('id' , id);
+    input.setAttribute('name' , name);
+    input.setAttribute('placeholder' , placeholder);
+    input.setAttribute('type' , type);
+
+    return input;
+}
+
+const styleFormGroup = (clas) => {
+    const component = document.createElement('div');
+    const bgInner = document.createElement('div');
+
+    component.setAttribute('class' , clas);
+    bgInner.setAttribute('class' , 'bg-inner');
+    component.appendChild(bgInner);
+
+    return component;
+}
+
+
+
+// Main Function
 const containerLogin = () => {
     const container = document.createElement('div');
     container.setAttribute('class' , 'login');
@@ -29,27 +72,6 @@ const setTitleForm = (form) => {
     form.appendChild(element);
 
     return form;
-}
-
-const input = (id , name, placeholder, type = 'text') => {
-    const input = document.createElement('input');
-    input.setAttribute('id' , id);
-    input.setAttribute('name' , name);
-    input.setAttribute('placeholder' , placeholder);
-    input.setAttribute('type' , type);
-
-    return input;
-}
-
-const styleFormGroup = (clas) => {
-    const component = document.createElement('div');
-    const bgInner = document.createElement('div');
-
-    component.setAttribute('class' , clas);
-    bgInner.setAttribute('class' , 'bg-inner');
-    component.appendChild(bgInner);
-
-    return component;
 }
 
 const styleInput = () => {
@@ -121,6 +143,36 @@ const setBtnLogin = (form) => {
     return form;
 }
 
+const loginSubmitEvent = () => {
+    /* get element button */
+    const button = document.getElementById('submit');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+
+    const submitForm = () => {
+        /* ambil data dari inputan */
+        let user = username.value;
+        let pass = password.value;
+        let message = '';
+    
+        /* validasi */
+        if(user && pass) {
+            message = `
+                Username : ${user}
+                Password: ${pass}
+            `
+            alert(message);
+            link('/produk');
+        } else {
+            message = `Data tidak valid!`;
+            alert(message);
+        }
+    
+    }
+
+    button.addEventListener('click' , submitForm);
+}
+
 
 
 const renderLogin = () => {
@@ -131,8 +183,64 @@ const renderLogin = () => {
     form = setBtnLogin(form);
     container.appendChild(form);
     
-
+    styleSheet.setAttribute('href' , './style/login.css');
     rootElement.appendChild(container);
+
+    
+    /* create flor or program for login page */
+    loginSubmitEvent();
 }
 
-renderLogin();
+
+
+/* ==================== End of Login =================== */
+
+
+
+
+
+
+
+
+
+/* =================== Produk Page ====================== */
+/* =================== Produk Page ====================== */
+
+
+
+
+
+
+
+
+
+/* =================== System Code ===================== */
+
+const routing = () => {
+    let path = window.location.pathname;
+
+    if(path === '/') {
+        renderLogin();
+    }
+}
+
+routing();
+
+/* =================== End System Code ===================== */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
