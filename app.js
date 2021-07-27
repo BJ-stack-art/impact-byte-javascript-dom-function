@@ -3,6 +3,8 @@ const styleSheet = document.querySelector('link[rel="stylesheet"]');
 
 
 
+/* ====  Helper Function for Global === */
+
 /* Set Action for anchor tag */
 const anchors = document.querySelectorAll('a');
 
@@ -15,14 +17,35 @@ anchors.forEach(anchor => {
     })
 })
 
+/* Render element function */
+const render = (element) => {
+    rootElement.appendChild(element);
+}
 
 const link = (target) => {
     window.history.pushState(null , "" , target);
+    routing();
+}
+
+const style = (file) => {
+    styleSheet.setAttribute('href' , `./style/${file}`);
+}
+
+const title = (title) => {
+    let tag = document.getElementsByTagName('title')[0];
+    tag.textContent = title;
 }
 
 
+
+
+
+
+
+
+
 /*====================== Login page ====================== */
-// Helper Function
+// Helper Function for Login Page
 const input = (id , name, placeholder, type = 'text') => {
     const input = document.createElement('input');
     input.setAttribute('id' , id);
@@ -176,6 +199,11 @@ const loginSubmitEvent = () => {
 
 
 const renderLogin = () => {
+    /* create head */
+    title('Login');
+    style('login.css');
+    
+    /* create body */
     let container = containerLogin();
     let form = formLogin(container);
     form = setTitleForm(form);
@@ -183,8 +211,7 @@ const renderLogin = () => {
     form = setBtnLogin(form);
     container.appendChild(form);
     
-    styleSheet.setAttribute('href' , './style/login.css');
-    rootElement.appendChild(container);
+    render(container);
 
     
     /* create flor or program for login page */
@@ -204,7 +231,95 @@ const renderLogin = () => {
 
 
 /* =================== Produk Page ====================== */
-/* =================== Produk Page ====================== */
+const navProduk = () => {
+    const nav = document.createElement('nav');
+    const link = document.createElement('a');
+    
+    link.setAttribute('class' , 'btnContact');
+    link.setAttribute('href' , '/contact');
+    link.textContent = 'Contact Us';
+    nav.appendChild(link);
+
+    render(nav);
+}
+
+const containerProduk = () => {
+    const container = document.createElement('div');
+    container.setAttribute('class' , 'container-produk');
+    
+    return container;
+}
+
+const createCard = () => {
+    const div = document.createElement('div');
+    div.setAttribute('class' , 'card');
+
+    return div;
+}
+
+const setThumbnailProduk = (card , src) => {
+    let thumbnail = document.createElement('img');
+    thumbnail.setAttribute('src' , `./image/${src}`);
+    thumbnail.setAttribute('alt' , 'Avatar');
+    thumbnail.setAttribute('style' , 'width: 100%; height: 400px');
+
+    card.appendChild(thumbnail);
+}
+
+const setContentProduk = (card , name , description) => {
+    const container = document.createElement('div');
+    const h1 = document.createElement('h1');
+    const b = document.createElement('b');
+    const p = document.createElement('p');
+
+    container.setAttribute('class' , 'container');
+    b.textContent = name;
+    p.textContent = description;
+
+    h1.appendChild(b);
+    container.appendChild(h1);
+    container.appendChild(p);
+    card.appendChild(container);
+}
+
+const setCardProduk = (container) => {
+    /* create card for produk */
+    const card1 = createCard();
+    const card2 = createCard();
+    const card3 = createCard();
+
+    /* set thumbnail */
+    setThumbnailProduk(card1 , 'produk1.jpg');
+    setThumbnailProduk(card2 , 'produk2.jpg');
+    setThumbnailProduk(card3 , 'produk3.jpg');
+
+    /* set content produk */
+    setContentProduk(card1 , 'Produk 1' , 'Sepatu Nike blabla');
+    setContentProduk(card2 , 'Produk 2' , 'Sepatu apa blabla');
+    setContentProduk(card3 , 'Produk 3' , 'Sepatu Air Jordan');
+
+    /* append to container produk */
+    container.appendChild(card1);
+    container.appendChild(card2);
+    container.appendChild(card3);
+    console.log(container);
+}
+
+const renderProdukPage = () => {
+    /* set heading */
+    title('Catalog Produk');
+    style('produk.css');
+    
+    
+    /* set body */
+    navProduk();
+    let container = containerProduk();
+    setCardProduk(container);
+
+    render(container);
+}
+
+/* =================== End of Produk Page ====================== */
 
 
 
@@ -216,15 +331,23 @@ const renderLogin = () => {
 
 /* =================== System Code ===================== */
 
-const routing = () => {
+function routing() {
     let path = window.location.pathname;
-
+    rootElement.innerHTML = '';
+    
     if(path === '/') {
         renderLogin();
+    } else if(path === '/produk') {
+        renderProdukPage();
     }
 }
-
 routing();
+
+
+window.addEventListener('popstate' , () => {
+    console.log('change page');
+    routing();
+})
 
 /* =================== End System Code ===================== */
 
